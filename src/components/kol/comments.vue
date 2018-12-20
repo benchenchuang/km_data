@@ -16,13 +16,18 @@
             <li :class="{'disabled': current == 1}" @click="setCurrent(current - 1)">‹</li>
             <li :class="{'disabled': current == maxPage}" @click="setCurrent(current + 1)">›</li>
         </ul>
+        <no-data v-else :title="'暂无关于< '+keyWord+' >的评论数据'"></no-data>
     </div>
 </template>
 <script>
 import * as Axios from '../../utils/axios.js'
+import NoData from '../noData'
 export default {
     name:'KolComments',
     props:['id'],
+    components:{
+        NoData
+    },
     data(){
         return{
             current:1,

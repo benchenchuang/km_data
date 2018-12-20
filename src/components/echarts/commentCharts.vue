@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="trend_box" id="opinion"></div>
-        <no-data class="no_data" v-if="!isKey"></no-data>
+        <no-data class="no_data" v-if="!isKey" title="暂无词云数据"></no-data>
     </div>
 </template>
 <script>

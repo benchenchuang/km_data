@@ -17,13 +17,13 @@
                         <div class="content">
                             <p class="name">{{kol.nickName}}</p>
                             <div class="other">
-                                <img v-if="kol.platform=='DOUYIN'" src="../assets/images/icon_DOUYIN.png"/>
-                                <img v-else-if="kol.platform=='KUAISHOU'" src="../assets/images/icon_KUAISHOU.png"/>
-                                <img v-else-if="kol.platform=='BILIBILI'" src="../assets/images/icon_BILIBILI.png"/>
-                                <img v-else-if="kol.platform=='MEIPAI'" src="../assets/images/icon_MEIPAI.png"/>
-                                <img v-else-if="kol.platform=='MIAOPAI'" src="../assets/images/icon_MIAOPAI.png"/>
-                                <img v-else-if="kol.platform=='XIGUA'" src="../assets/images/icon_XIGUA.png"/>
-                                <img v-else src="../assets/images/icon_HUOSHAN.png"/>
+                                <img class="icon" v-if="kol.platform=='DOUYIN'" src="../assets/images/icon_DOUYIN.png"/>
+                                <img class="icon" v-else-if="kol.platform=='KUAISHOU'" src="../assets/images/icon_KUAISHOU.png"/>
+                                <img class="icon" v-else-if="kol.platform=='BILIBILI'" src="../assets/images/icon_BILIBILI.png"/>
+                                <img class="icon" v-else-if="kol.platform=='MEIPAI'" src="../assets/images/icon_MEIPAI.png"/>
+                                <img class="icon" v-else-if="kol.platform=='MIAOPAI'" src="../assets/images/icon_MIAOPAI.png"/>
+                                <img class="icon" v-else-if="kol.platform=='XIGUA'" src="../assets/images/icon_XIGUA.png"/>
+                                <img class="icon" v-else src="../assets/images/icon_HUOSHAN.png"/>
                                 <span class="week_num">周可梦指数：<span class="num">{{kol.focus}}</span></span>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                     <p class="item_desc">简介：{{kol.signature}}</p>
                 </router-link>
             </div>
-            <no-data v-if="!results.length && !searchLoding"></no-data>
+            <no-data v-if="!results.length && !searchLoding" title="暂无搜索数据"></no-data>
             <loading v-if="searchLoding" :text="'正在搜索：'+keyword"></loading>
         </div>
     </div>
@@ -140,7 +140,7 @@ export default {
                         .icon{
                             width: 4.5vw;
                             height: 4.5vw;
-                            vertical-align: -0.5vw;
+                            vertical-align: text-bottom;
                         }
                         .week_num{
                             margin-left: 2vw;

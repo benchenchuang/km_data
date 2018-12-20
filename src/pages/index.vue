@@ -7,7 +7,8 @@
             
             <canvas-head :ranks="rankTops" v-if="getCanvas"></canvas-head>
             
-            <rank-list v-if="shareList" :head="!getCanvas" :data="ranks" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="20"></rank-list>
+            <rank-list v-if="getCanvas" :head="!getCanvas" :data="ranks" ></rank-list>
+            <rank-list v-else :head="!getCanvas" :data="ranks" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="20"></rank-list>
         
             <no-data v-if="no_data"></no-data>
             <canvas-bottom v-if="getCanvas"></canvas-bottom>

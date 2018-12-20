@@ -27,7 +27,7 @@
                     <p class="item_index">1856</p>
                 </div>
             </div>
-            <no-data v-else></no-data>
+            <no-data v-else title="暂无关注数据"></no-data>
             
         </div>
         <div class="recommend_box">
