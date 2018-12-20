@@ -110,9 +110,12 @@ export default {
                 }
             ];
             let starData=[];
-            let allStars=data.reduce((allStars,item)=>{
-                return allStars+parseFloat(item);
-            },0)
+            let allStars
+            if(data){
+                allStars=data.reduce((allStars,item)=>{
+                    return allStars+parseFloat(item);
+                },0)
+            }
             for(let i=0;i<data.length;i++){
                 let thisPercent=(data[i]*100/allStars).toFixed(2);
                 starData.push(thisPercent);

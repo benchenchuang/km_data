@@ -1,20 +1,26 @@
 <template>
     <div>
-        <div class="trend_box" v-echarts="ChartOptions"></div>
+        <div class="trend_box" v-show="!noData" v-echarts="ChartOptions"></div>
+        <no-data class="no_data" v-if="noData"></no-data>
     </div>
 </template>
 <script>
 import echarts from 'echarts';
 import V_Echarts from 'vue-echarts-directive';
+import NoData from '@/components/noData';
 export default {
     name:"City",
     props:['city'],
+    components:{
+        NoData
+    },
     directives: {
         'echarts': V_Echarts
     },
     data(){
         return{
             ChartOptions:{},
+            noData:false
         }
     },
     mounted(){
@@ -25,10 +31,14 @@ export default {
             let lineColor="#ff3f13";
             let hellXData=[];
             let hellYData=[];
-            areaData.forEach(function(item){
-                hellXData.push(item.area);
-                hellYData.push(item.num);
-            })                 
+            if(areaData){
+                areaData.forEach(function(item){
+                    hellXData.push(item.area);
+                    hellYData.push(item.num);
+                })                 
+            }else{
+                this.noData=true;
+            }
             let option = {
                 grid: {
                     left: '0',

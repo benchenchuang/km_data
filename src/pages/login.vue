@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="login_head">
-            <router-link :to="{name:'Home'}"><img class="logo" src="../assets/images/logo.png"/></router-link>
+            <router-link :to="{name:'Home'}"><img class="logo" src="../../static/images/logo.png"/></router-link>
             <div class="login_tab flex_box">
                 <a href="javascript:void(0);" class="tab_item flex_item">
                     <p class="name">登 录</p>

@@ -13,7 +13,7 @@ Vue.use(Router)
 
 export default new Router({
   mode:'history',
-  // base: '/km_data/dist/',
+  base: __dirname,
   routes: [
     {
       path: '/',
@@ -77,6 +77,7 @@ export default new Router({
       path:'*',
       name:'Error',
       component:Error,
+      certify:true,
       meta:{
         title:"页面错误"
       }

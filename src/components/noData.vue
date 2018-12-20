@@ -1,18 +1,13 @@
 <template>
     <div class="no_data">
-        <img :src="imgUrl">
+        <img src="../../static/images/no_data.png">
         <p class="txt">暂无数据</p>
     </div>
 </template>
 <script>
 export default {
     name:'NoData',
-    props:['title'],
-    data(){
-        return{
-            imgUrl:require("../assets/images/no_data.png")
-        }
-    },
+    props:['title']
 }
 </script>
 <style lang="less" scoped>

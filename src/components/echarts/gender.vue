@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="trend_box" v-echarts="ChartOptions"></div>
-        <div class="gender_box flex_box">
+        <div class="gender_box flex_box" v-if="!noData">
             <div class="flex_item boy">
                 <img class="icon_gender" src="../../assets/images/icon_boy.png"/>
                 <p class="percent">{{boy/allFans | fansPercent}}</p>
@@ -13,21 +13,27 @@
                 <p class="label">女性用户</p>
             </div>
         </div>
+        <no-data class="no_data" v-if="noData"></no-data>
     </div>
 </template>
 <script>
 import echarts from 'echarts';
 import V_Echarts from 'vue-echarts-directive';
+import NoData from '@/components/noData';
 export default {
     name:"GenderEcharts",
     props:['girl','boy'],
     directives: {
         'echarts': V_Echarts
     },
+    components:{
+        NoData
+    },
     data(){
         return{
             ChartOptions:{},
             allFans:null,
+            noData:false
         }
     },
     mounted(){
@@ -36,151 +42,155 @@ export default {
     },
     methods:{
         setOption(boy,girl){
-            function deepCopy(obj) {
-                if (typeof obj !== 'object') {
-                    return obj;
-                }
-                var newobj = {};
-                for (var attr in obj) {
-                    newobj[attr] = obj[attr];
-                }
-                return newobj;
-            }
-            let xData = [],
-                yData = [];
-            let genderData = [{
-                "name": "男性",
-                "value": boy
-            }, {
-                "name": "女性",
-                "value": girl
-            }];
-            genderData.map((a, b) => {
-                xData.push(a.name);
-                yData.push(a.value);
-            });
-            var startColor = ['#6fc4ff', '#ff94ac'];
-            var endColor = ['#50b2f7', '#fa6083'];
-            var borderStartColor = ['#36a2ee','#fa5c80'];
-            var borderEndColor = ['#36a2ee','#fa5c80'];
-            var RealData = [];
-            var borderData = [];
-            genderData.map((item, index) => {
-                var newobj = deepCopy(item);
-                var newobj1 = deepCopy(item);
-                RealData.push(newobj);
-                borderData.push(newobj1);
-            });
-            RealData.map((item, index) => {
-                item.itemStyle = {
-                    normal: {
-                        color: {
-                            type: 'linear',
-                            x: 0,
-                            y: 0,
-                            x2: 0,
-                            y2: 1,
-                            colorStops: [{
-                                offset: 0,
-                                color: startColor[index] // 0% 处的颜色
-                            }, {
-                                offset: 1,
-                                color: endColor[index] // 100% 处的颜色
-                            }],
-                            globalCoord: false // 缺省为 false
-                        },
+            if(boy || girl){
+                function deepCopy(obj) {
+                    if (typeof obj !== 'object') {
+                        return obj;
                     }
-                }
-            });
-            borderData.map((item, index) => {
-                item.itemStyle = {
-                    normal: {
-                        color: {
-                            type: 'linear',
-                            x: 0,
-                            y: 0,
-                            x2: 0,
-                            y2: 1,
-                            colorStops: [{
-                                offset: 0,
-                                color: borderStartColor[index] // 0% 处的颜色
-                            }, {
-                                offset: 1,
-                                color: borderEndColor[index] // 100% 处的颜色
-                            }],
-                            globalCoord: false // 缺省为 false
-                        },
+                    var newobj = {};
+                    for (var attr in obj) {
+                        newobj[attr] = obj[attr];
                     }
+                    return newobj;
                 }
-            });
-            var genderOption = {
-                title: {
-                    text: '性 别 分 布',
-                    show:false
-                },
-                tooltip: {
-                    formatter: "{a}：<br/>{b}: {d}%",
-                    show:true
-                },
-                series: [
-                    // 主要展示层的
-                    {
-                        name: "性别分布",
-                        type: 'pie',
-                        radius: ['33%', '61%'],
-                        center: ['50%', '50%'],
-                        label: {
-                            normal: {
-                                formatter: '{b}:{d}%',
+                let xData = [],
+                    yData = [];
+                let genderData = [{
+                    "name": "男性",
+                    "value": boy
+                }, {
+                    "name": "女性",
+                    "value": girl
+                }];
+                genderData.map((a, b) => {
+                    xData.push(a.name);
+                    yData.push(a.value);
+                });
+                var startColor = ['#6fc4ff', '#ff94ac'];
+                var endColor = ['#50b2f7', '#fa6083'];
+                var borderStartColor = ['#36a2ee','#fa5c80'];
+                var borderEndColor = ['#36a2ee','#fa5c80'];
+                var RealData = [];
+                var borderData = [];
+                genderData.map((item, index) => {
+                    var newobj = deepCopy(item);
+                    var newobj1 = deepCopy(item);
+                    RealData.push(newobj);
+                    borderData.push(newobj1);
+                });
+                RealData.map((item, index) => {
+                    item.itemStyle = {
+                        normal: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0,
+                                    color: startColor[index] // 0% 处的颜色
+                                }, {
+                                    offset: 1,
+                                    color: endColor[index] // 100% 处的颜色
+                                }],
+                                globalCoord: false // 缺省为 false
                             },
-                        },
-                        label: {
-                            normal: {
-                                show: false
+                        }
+                    }
+                });
+                borderData.map((item, index) => {
+                    item.itemStyle = {
+                        normal: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [{
+                                    offset: 0,
+                                    color: borderStartColor[index] // 0% 处的颜色
+                                }, {
+                                    offset: 1,
+                                    color: borderEndColor[index] // 100% 处的颜色
+                                }],
+                                globalCoord: false // 缺省为 false
                             },
-                            emphasis: {
-                                show: false
-                            }
-                        },
-                        labelLine: {
-                            normal: {
-                                show: false
-                            },
-                            emphasis: {
-                                show: false
-                            }
-                        },
-                        data: RealData,
+                        }
+                    }
+                });
+                var genderOption = {
+                    title: {
+                        text: '性 别 分 布',
+                        show:false
                     },
-                    // 边框的设置
-                    {
-                        radius: ['31%', '34%'],
-                        type: 'pie',
-                        label: {
-                            normal: {
+                    tooltip: {
+                        formatter: "{a}：<br/>{b}: {d}%",
+                        show:true
+                    },
+                    series: [
+                        // 主要展示层的
+                        {
+                            name: "性别分布",
+                            type: 'pie',
+                            radius: ['33%', '61%'],
+                            center: ['50%', '50%'],
+                            label: {
+                                normal: {
+                                    formatter: '{b}:{d}%',
+                                },
+                            },
+                            label: {
+                                normal: {
+                                    show: false
+                                },
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                },
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            data: RealData,
+                        },
+                        // 边框的设置
+                        {
+                            radius: ['31%', '34%'],
+                            type: 'pie',
+                            label: {
+                                normal: {
+                                    show: false
+                                },
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                },
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            animation: false,
+                            tooltip: {
                                 show: false
                             },
-                            emphasis: {
-                                show: false
-                            }
-                        },
-                        labelLine: {
-                            normal: {
-                                show: false
-                            },
-                            emphasis: {
-                                show: false
-                            }
-                        },
-                        animation: false,
-                        tooltip: {
-                            show: false
-                        },
-                        data: borderData
-                    }
-                ]
-            };
-            this.ChartOptions=genderOption;
+                            data: borderData
+                        }
+                    ]
+                };
+                this.ChartOptions=genderOption;
+            }else{
+                this.noData=true;
+            }
         }
     },
     filters:{
@@ -217,6 +227,9 @@ export default {
                 font-size: 3vw;
             }
         }
+    }
+    .no_data{
+        margin-top: -60vw;
     }
 </style>
 

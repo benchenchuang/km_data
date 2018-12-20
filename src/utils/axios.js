@@ -23,6 +23,7 @@ axios.interceptors.response.use(
     response=>{
         if(response.data.errorCode==102){
             // 清除token
+            webStorage.clearOneLocal('token');
             setTimeout(() => {   
                 router.replace({    
                     path: '/login',    
@@ -87,6 +88,8 @@ export const myFocus=(params)=>{return axios.post(api+'/kol/myFocus',params).the
 export const controlFocus=(params)=>{return axios.post(api+'/kol/focus',params).then(res=>res.data)};
 //取消关注
 export const delFocus=(params)=>{return axios.post(api+'/kol/delFocus',params).then(res=>res.data)};
+//推荐关注
+export const myFocusRecommend=(params)=>{return axios.post(api+'/kol/myFocusRecommend',params).then(res=>res.data)};
 
 //平台列表
 export const platforms=(params)=>{return axios.post(api+'/index/platforms',params).then(res=>res.data)};

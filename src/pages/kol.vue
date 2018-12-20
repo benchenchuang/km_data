@@ -2,7 +2,7 @@
     <div>
         <div id="capture" v-show="!dataUrl">
             <canvas-tip v-if="sharing"></canvas-tip>
-            <img v-if="sharing" class="capture_head" src="../assets/images/canvas_kol_head.png"/>
+            <img v-if="sharing" class="capture_head" src="../../static/images/canvas_kol_head.png"/>
             <kol-head v-if="headActive" :id="kolId"  @setShare="getShare"></kol-head>
             <kol-tab @getActive="getTabIndex"></kol-tab>
             <div class="tab_content" v-show="tabIndex==1 || tabIndex==4">
@@ -41,13 +41,13 @@
             <div class="tab_content" v-show="tabIndex==3 || tabIndex==4" v-if="userFollower">
                 <kol-title title="用户数据"></kol-title>
                 <h3 class="item_title">性别分布</h3>
-                <gender-echarts :boy="userFollower.genderPie.boy" :girl="userFollower.genderPie.girl"></gender-echarts>
+                <gender-echarts :boy="boy" :girl="girl"></gender-echarts>
                 <h3 class="item_title">年龄分布</h3>
-                <age-tree :agex="userFollower.ageTree.x" :agey="userFollower.ageTree.y"></age-tree>
+                <age-tree :agex="ageTreeX" :agey="ageTreeY"></age-tree>
                 <h3 class="item_title">城市分布</h3>
-                <city :city="userFollower.city"></city>
+                <city :city="city"></city>
                 <h3 class="item_title">星座分布</h3>
-                <star-pie :star-pie="userFollower.starPie['y']"></star-pie>
+                <star-pie :star-pie="starPie"></star-pie>
             </div>
             
             <canvas-bottom v-if="sharing"></canvas-bottom>
@@ -94,7 +94,8 @@ export default {
         GenderEcharts,
         AgeTree,
         City,
-        StarPie
+        StarPie,
+        
     },
     data(){
         return{
@@ -108,7 +109,13 @@ export default {
             tabIndex:4,
             status:0,
             sharing:false,
-            userFollower:null
+            userFollower:null,
+            boy:'',
+            girl:'',
+            ageTreeX:'',
+            ageTreeY:'',
+            city:'',
+            starPie:''
         }
     },
     watch:{
@@ -130,9 +137,19 @@ export default {
             Axios.getFollower({kolId:this.kolId}).then(res=>{
                 if(res.errorCode==200){
                     this.userFollower=res.data;
+                    try{
+                        this.boy=res.data.genderPie.boy;
+                        this.girl=res.data.genderPie.girl;
+                        this.ageTreeX=res.data.ageTree.x;
+                        this.ageTreeY=res.data.ageTree.y;
+                        this.city=res.data.city;
+                        this.starPie=res.data.starPie['y'];
+                    }catch(e){
+                        
+                    }
                     setTimeout(()=>{
                         this.status++;
-                    })
+                    },1000)
                 }
             })
         },

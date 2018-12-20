@@ -38,7 +38,7 @@ export default {
                     }catch(e){
                         this.isKey=""
                     }
-                    this.$root.Bus.$emit('wordCloud',this.key);
+                    this.$root.Bus.$emit('wordCloud',this.isKey);
                     this.$emit('getStatus')
                 }else{
                     this.$toast.center(res.errorMsg);
@@ -59,57 +59,51 @@ export default {
                 })
             });
             let opinionCharts= echarts.init(document.getElementById('opinion'));;
-            let maskImage = new Image();
-            let loveUrl =require("../../assets/images/love.png");
-            maskImage.src = loveUrl;
-            maskImage.onload = ()=>{
-                opinionCharts.setOption({
-                    title: {
-                        text: '词 云 图',
-                        show:false
+            opinionCharts.setOption({
+                title: {
+                    text: '词 云 图',
+                    show:false
+                },
+                grid: {
+                    left: '0',
+                    right: '0',
+                    bottom: '10',
+                    top: '-10',
+                    containLabel: true
+                },
+                series: [{
+                    name: '词 云 图',
+                    type: 'wordCloud',
+                    textRotation: [0, 0, 90, -90],
+                    gridSize: 10,
+                    sizeRange: [12, 32],
+                    rotationRange: [0, 0],
+                    shape:'pentagon',
+                    width: '100%',
+                    height: '100%',
+                    textPadding: [5,5],
+                    autoSize: {
+                        enable: true,
+                        minSize: 12
                     },
-                    grid: {
-                        left: '10',
-                        right: '10',
-                        bottom: '10',
-                        top: '-10',
-                        containLabel: true
-                    },
-                    series: [{
-                        name: '词 云 图',
-                        type: 'wordCloud',
-                        textRotation: [0, 0, 90, -90],
-                        gridSize: 16,
-                        sizeRange: [12, 25],
-                        rotationRange: [0, 0],
-                        shape:'pentagon',
-                        width: '100%',
-                        height: '100%',
-                        maskImage: maskImage,
-                        textPadding: [5,5],
-                        autoSize: {
-                            enable: true,
-                            minSize: 12
-                        },
-                        textStyle: {
-                            normal: {
-                                color: function() {
-                                    return 'rgb(' + [
-                                        Math.round(Math.random() * 255),
-                                        Math.round(Math.random() * 255),
-                                        Math.round(Math.random() * 255)
-                                    ].join(',') + ')';
-                                }
-                            },
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowColor:'#ccc'
+                    textStyle: {
+                        normal: {
+                            color: function() {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 255),
+                                    Math.round(Math.random() * 255),
+                                    Math.round(Math.random() * 255)
+                                ].join(',') + ')';
                             }
                         },
-                        data:opinionData
-                    }]
-                });
-            };
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor:'#ccc'
+                        }
+                    },
+                    data:opinionData
+                }]
+            });
             //云图点击事件
             opinionCharts.on('click',params=>{
                 this.$root.Bus.$emit('wordCloud',params.name)
