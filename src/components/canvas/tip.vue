@@ -1,6 +1,6 @@
 <template>
     <div class="tip_box">
-        <img class="icon" src="../../../static/images/icon_tip.png"/><span>已生成报告，</span><span class="red">长按可保存图片或者分享好友</span>
+        <img class="icon" src="../../assets/images/icon_tip.png"/><span>已生成报告，</span><span class="red">长按可保存图片或者分享好友</span>
     </div>
 </template>
 <script>

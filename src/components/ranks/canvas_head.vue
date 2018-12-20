@@ -23,7 +23,7 @@
             <p class="rank_num">粉丝总数</p>
             <p class="rank_num">可梦指数</p>
         </div>
-        <img src="../../../static/images/ranks_topic.png" class="canvas_head_bg">
+        <img src="../../assets/images/ranks_topic.png" class="canvas_head_bg">
     </div>
 </template>
 <script>

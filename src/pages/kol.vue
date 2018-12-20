@@ -2,9 +2,9 @@
     <div>
         <div id="capture" v-show="!dataUrl">
             <canvas-tip v-if="sharing"></canvas-tip>
-            <img v-if="sharing" class="capture_head" src="../../static/images/canvas_kol_head.png"/>
+            <img v-if="sharing" class="capture_head" src="../assets/images/canvas_kol_head.png"/>
             <kol-head v-if="headActive" :id="kolId"  @setShare="getShare"></kol-head>
-            <kol-tab @getActive="getTabIndex"></kol-tab>
+            <kol-tab @getActive="getTabIndex" :status="status"></kol-tab>
             <div class="tab_content" v-show="tabIndex==1 || tabIndex==4">
                 <div class="analysis_box">
                     <kol-title title="数据概览"></kol-title>

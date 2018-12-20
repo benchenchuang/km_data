@@ -20,6 +20,7 @@
 <script>
 export default {
     name:'KolTab',
+    props:['status'],
     data(){
         return{
             thisIndex:1,
@@ -27,8 +28,10 @@ export default {
     },
     methods:{
         switchTab(index){
-            this.thisIndex=index;
-            this.$emit('getActive',index)
+            if(this.status>=2){
+                this.thisIndex=index;
+                this.$emit('getActive',index)
+            }
         }
     }
 
