@@ -93,8 +93,9 @@ export default {
             Axios.delFocus({token:this.token,kolId:kolArray}).then(res=>{
                 if(res.errorCode==200){
                     this.$toast.center('取消关注成功');
+                    this.delCheck=false;
                 }else{
-                   this.$toast.center(res.errorMsg); 
+                    this.$toast.center(res.errorMsg); 
                 }
                 this.getFocus(this.token);
             });

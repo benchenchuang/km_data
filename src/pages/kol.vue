@@ -23,7 +23,7 @@
                     <h3 class="item_title">点赞趋势</h3>
                     <trend-charts :id="kolId" type="3" day="30"></trend-charts>
                 </div>
-                <div class="analysis_box">
+                <div class="analysis_box" v-if="!sharing">
                     <kol-title title="视频精选"></kol-title>
                     <h3 class="item_title">最热视频</h3>
                     <kol-video :id="kolId" type="1"></kol-video>
