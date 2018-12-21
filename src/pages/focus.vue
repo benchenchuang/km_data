@@ -23,7 +23,7 @@
                         <input :id="'focus_'+focus.id" v-show="delCheck" type="checkbox" v-model="checkedNames" :value="focus.id" class="check_box"/>
                         <label :for="'focus_'+focus.id">{{focus.nickName}}</label>
                     </div>
-                    <p class="item_index">{{focus.platform}}</p>
+                    <p class="item_index">{{focus.platform | platForm}}</p>
                     <p class="item_index">1856</p>
                 </div>
             </div>
@@ -143,6 +143,33 @@ export default {
                 }
             })
         }
+    },
+    filters:{
+        platForm(val){
+            let name=val.toUpperCase();
+            switch(name){
+                case 'DOUYIN':
+                return '抖音';
+                break;
+                case 'KUAISHOU':
+                return '快手';
+                break;
+                case 'BILIBILI':
+                return 'bilibili';
+                break;
+                case 'MEIPAI':
+                return '美拍';
+                break;
+                case 'MIAOPAI':
+                return '秒拍';
+                break;
+                case 'XIGUA':
+                return '西瓜视频';
+                break;
+                default:
+                return '火山小视频'
+            }
+        }
     }
 }
 </script>
@@ -242,6 +269,7 @@ export default {
     .recommend_list{
         overflow: hidden;
         .recommend{
+            margin-top: 4vw;
             float: left;
             margin-bottom: 5vw;
             width: 33.3%;
