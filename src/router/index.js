@@ -12,7 +12,7 @@ import User from '@/pages/user'
 Vue.use(Router)
 
 export default new Router({
-  // mode:'history',
+  mode:'history',
   base: __dirname,
   routes: [
     {

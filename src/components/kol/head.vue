@@ -1,6 +1,6 @@
 <template>
     <div>
-        <loading v-if="isLoding"></loading>
+        <skeleton-head v-if="isLoding"></skeleton-head>
         <div class="kol_head" v-else>
             <div class="kol_item kol_info">
                 <img class="avatar" v-lazy="info.headImg"/>
@@ -56,12 +56,12 @@
 </template>
 <script>
 import * as Axios from '../../utils/axios.js'
-import Loading from '@/components/loading';
+import skeletonHead from '@/components/skeleton/kol_head';
 import {webStorage} from '../../utils/webStorage.js'
 export default {
     name:'KolHead',
     components:{
-        Loading
+        skeletonHead
     },
     props:['id'],
     data(){
@@ -87,9 +87,9 @@ export default {
                     this.$toast.center(tipMsg);
                 }else{
                     this.$toast.center(res.errorMsg);
-                    setTimeout(()=>{
-                        this.$router.go(0);
-                    },1000)
+                    // setTimeout(()=>{
+                    //     this.$router.go(0);
+                    // },1000)
                 }
             })
         },

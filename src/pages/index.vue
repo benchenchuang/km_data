@@ -14,7 +14,7 @@
             <canvas-bottom v-if="getCanvas"></canvas-bottom>
         </div>
         <p class="load_all" v-if="this.params.page>=3">--已经到底了--</p>
-        <load-guide v-if="loading"></load-guide>
+        <load-rank v-if="loading"></load-rank>
         <div class="share_loading" v-if="shareLoding">
             <loading text="图片生成中"></loading>
         </div>
@@ -29,7 +29,7 @@ import RankList from '@/components/ranks/RankList'
 import infiniteScroll from 'vue-infinite-scroll'
 import NoData from '@/components/noData';
 import Loading from '@/components/loading';
-import LoadGuide from '@/components/loadGuide/rank';
+import LoadRank from '@/components/skeleton/rank';
 import CanvasTip from '@/components/canvas/tip'
 import CanvasBottom from '@/components/canvas/bottom'
 import * as Axios from '../utils/axios.js'
@@ -40,7 +40,7 @@ export default {
         HomeHeader,
         HomeFilter,
         NoData,
-        LoadGuide,
+        LoadRank,
         CanvasHead,
         RankList,
         Loading,

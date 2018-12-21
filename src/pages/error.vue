@@ -11,7 +11,7 @@ export default {
     props:['title'],
     data(){
         return{
-            time:6,
+            time:3,
             timer:null,
             name:this.title || '页面'
         }

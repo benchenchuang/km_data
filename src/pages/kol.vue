@@ -5,7 +5,8 @@
             <img v-if="sharing" class="capture_head" src="../assets/images/canvas_kol_head.png"/>
             <kol-head v-if="headActive" :id="kolId"  @setShare="getShare"></kol-head>
             <kol-tab @getActive="getTabIndex" :status="status"></kol-tab>
-            <div class="tab_content" v-show="tabIndex==1 || tabIndex==4">
+            <loading text="图形数据加载中" v-if="status<2"></loading>
+            <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==1 || tabIndex==4">
                 <div class="analysis_box">
                     <kol-title title="数据概览"></kol-title>
                     <over-view :id="kolId"></over-view>
@@ -30,7 +31,7 @@
                     <kol-video :id="kolId" type="2"></kol-video>
                 </div>
             </div>
-            <div class="tab_content" v-show="tabIndex==2 || tabIndex==4">
+            <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==2 || tabIndex==4">
                 <kol-title title="关键词分析"></kol-title>
                 <h3 class="item_title">词云图</h3>
                 <comment-charts :id="kolId" @getStatus="setStatus"></comment-charts>
@@ -38,7 +39,7 @@
                 <kol-comments :id="kolId"></kol-comments>
             </div>
             
-            <div class="tab_content" v-show="tabIndex==3 || tabIndex==4" v-if="userFollower">
+            <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==3 || tabIndex==4" v-if="userFollower">
                 <kol-title title="用户数据"></kol-title>
                 <h3 class="item_title">性别分布</h3>
                 <gender-echarts :boy="boy" :girl="girl"></gender-echarts>
@@ -126,6 +127,12 @@ export default {
         }
     },
     created(){
+        if(!this.$route.params.id){
+            this.$toast.center('红人详情不存在');
+            return setTimeout(()=>{
+                this.$router.go(-1);
+            },1000)
+        }
         this.getFollower();
     },
     methods:{
@@ -239,6 +246,10 @@ export default {
 .tab_content{
     padding: 1vw 0;
     background: #fff;
+}
+.tab_content.off{
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
 </style>
 

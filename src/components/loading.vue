@@ -24,7 +24,7 @@ export default {
             margin: 4vw 0;
         }
         .txt{
-            font-size: 4vw;
+            font-size: 3.5vw;
             color: #999;
         }
     }
