@@ -164,7 +164,7 @@ export default {
         },
         selectCategory(id,index){
             this.isFilterMore=false;
-            this.filters.category=id;
+            this.filters.labelId=id;
             this.toSlide(index);
         },
         mobileSelect(){
