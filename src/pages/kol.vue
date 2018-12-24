@@ -79,6 +79,7 @@ import AgeTree from '@/components/echarts/ageTree'
 import City from '@/components/echarts/city'
 import StarPie from '@/components/echarts/starPie'
 import html2canvas from 'html2canvas';
+import {webStorage} from '../utils/webStorage.js'
 export default {
     name:'KolDetail',
     components:{
@@ -129,13 +130,22 @@ export default {
         }
     },
     created(){
-        if(!this.$route.params.id){
-            this.$toast.center('红人详情不存在');
-            return setTimeout(()=>{
-                this.$router.go(-1);
+        let token=webStorage.getLocal('token');
+        if(token){
+           if(!this.$route.params.id){
+                this.$toast.center('红人详情不存在');
+                return setTimeout(()=>{
+                    this.$router.go(-1);
+                },1000)
+            }
+            this.getFollower(); 
+        }else{
+            this.$toast.center('暂未登录');
+            setTimeout(()=>{
+                this.$router.push({name:'Login'});
             },1000)
         }
-        this.getFollower();
+        
     },
     methods:{
         setStatus(){
