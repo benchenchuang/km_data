@@ -18,13 +18,22 @@
                         <label class="del_show" @click="allChecked" v-else for="all" ><img class="icon" src="../assets/images/icon_focus_pic.png"/><span>全选</span></label>
                     </div>
                 </div>
-                <div class="focus_item flex_box" v-for="(focus,index) in focusBox" :key="index">
-                    <div class="name">
-                        <input :id="'focus_'+focus.id" v-show="delCheck" type="checkbox" v-model="checkedNames" :value="focus.id" class="check_box"/>
-                        <label :for="'focus_'+focus.id">{{focus.nickName}}</label>
+                <div class="focus_item" v-for="(focus,index) in focusBox" :key="index">
+                    <div class="flex_box" v-if="delCheck">
+                        <div class="name">
+                            <input :id="'focus_'+focus.id" type="checkbox" v-model="checkedNames" :value="focus.id" class="check_box"/>
+                            <label :for="'focus_'+focus.id">{{focus.nickName}}</label>
+                        </div>
+                        <p class="item_index">{{focus.platform | platForm}}</p>
+                        <p class="item_index">1856</p>
                     </div>
-                    <p class="item_index">{{focus.platform | platForm}}</p>
-                    <p class="item_index">1856</p>
+                    <router-link :to="{name:'KolDetail',params:{id:focus.id}}" class="flex_box" v-else>
+                        <div class="name">
+                            <label>{{focus.nickName}}</label>
+                        </div>
+                        <p class="item_index">{{focus.platform | platForm}}</p>
+                        <p class="item_index">1856</p>
+                    </router-link>
                 </div>
             </div>
             <no-data v-else title="暂无关注数据"></no-data>
@@ -94,6 +103,7 @@ export default {
                 if(res.errorCode==200){
                     this.$toast.center('取消关注成功');
                     this.delCheck=false;
+                    this.myFocusRecommend(this.token);
                 }else{
                     this.$toast.center(res.errorMsg); 
                 }

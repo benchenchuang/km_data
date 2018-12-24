@@ -6,7 +6,7 @@
                 <img class="cover" v-lazy="video.videoCoverUrl"/>
             </div>
             <div class="video_info">
-                <h3 class="title">{{video.musicTitle}}</h3>
+                <h3 class="title">{{video.videoInfo}}</h3>
                 <div class="video_other">
                     <div class="other_item">
                         <img class="icon" src="../../assets/images/video_comment.png"/>

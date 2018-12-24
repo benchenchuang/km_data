@@ -3,54 +3,55 @@
         <div id="capture" v-show="!dataUrl">
             <canvas-tip v-if="sharing"></canvas-tip>
             <img v-if="sharing" class="capture_head" src="../assets/images/canvas_kol_head.png"/>
-            <kol-head v-if="headActive" :id="kolId"  @setShare="getShare"></kol-head>
-            <kol-tab @getActive="getTabIndex" :status="status"></kol-tab>
-            <loading text="图形数据加载中" v-if="status<2"></loading>
-            <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==1 || tabIndex==4">
-                <div class="analysis_box">
-                    <kol-title title="数据概览"></kol-title>
-                    <over-view :id="kolId"></over-view>
-                </div> 
-                <div class="analysis_box">
-                    <kol-title title="粉丝数据"></kol-title>
-                    <trend-charts :id="kolId" type="1" day="30"></trend-charts>
-                    <p class="chart_tip">注：如粉丝趋势出现负值，表明有部分用户取消了关注</p>
+            <div v-if="infoBox">
+                <kol-head v-if="headActive" :id="kolId"  @setShare="getShare"></kol-head>
+                <kol-tab @getActive="getTabIndex" :status="status"></kol-tab>
+                <loading text="图形数据加载中" v-if="status<2"></loading>
+                <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==1 || tabIndex==4">
+                    <div class="analysis_box">
+                        <kol-title title="数据概览"></kol-title>
+                        <over-view :id="kolId"></over-view>
+                    </div> 
+                    <div class="analysis_box">
+                        <kol-title title="粉丝数据"></kol-title>
+                        <trend-charts :id="kolId" type="1" day="30"></trend-charts>
+                        <p class="chart_tip">注：如粉丝趋势出现负值，表明有部分用户取消了关注</p>
+                    </div>
+                    <div class="analysis_box">
+                        <kol-title title="互动数据分析"></kol-title>
+                        <h3 class="item_title">评论趋势</h3>
+                        <trend-charts :id="kolId" type="2" day="30"></trend-charts>
+                        <h3 class="item_title">点赞趋势</h3>
+                        <trend-charts :id="kolId" type="3" day="30"></trend-charts>
+                    </div>
+                    <div class="analysis_box" v-if="!sharing">
+                        <kol-title title="视频精选"></kol-title>
+                        <h3 class="item_title">最热视频</h3>
+                        <kol-video :id="kolId" type="1"></kol-video>
+                        <h3 class="item_title">最新视频</h3>
+                        <kol-video :id="kolId" type="2"></kol-video>
+                    </div>
                 </div>
-                <div class="analysis_box">
-                    <kol-title title="互动数据分析"></kol-title>
-                    <h3 class="item_title">评论趋势</h3>
-                    <trend-charts :id="kolId" type="2" day="30"></trend-charts>
-                    <h3 class="item_title">点赞趋势</h3>
-                    <trend-charts :id="kolId" type="3" day="30"></trend-charts>
+                <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==2 || tabIndex==4">
+                    <kol-title title="关键词分析"></kol-title>
+                    <h3 class="item_title">词云图</h3>
+                    <comment-charts :id="kolId" @getStatus="setStatus"></comment-charts>
+                    <h3 class="item_title">评论列表</h3>
+                    <kol-comments :id="kolId"></kol-comments>
                 </div>
-                <div class="analysis_box" v-if="!sharing">
-                    <kol-title title="视频精选"></kol-title>
-                    <h3 class="item_title">最热视频</h3>
-                    <kol-video :id="kolId" type="1"></kol-video>
-                    <h3 class="item_title">最新视频</h3>
-                    <kol-video :id="kolId" type="2"></kol-video>
+                
+                <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==3 || tabIndex==4" v-if="userFollower">
+                    <kol-title title="用户数据"></kol-title>
+                    <h3 class="item_title">性别分布</h3>
+                    <gender-echarts :boy="boy" :girl="girl"></gender-echarts>
+                    <h3 class="item_title">年龄分布</h3>
+                    <age-tree :agex="ageTreeX" :agey="ageTreeY"></age-tree>
+                    <h3 class="item_title">城市分布</h3>
+                    <city :city="city"></city>
+                    <h3 class="item_title">星座分布</h3>
+                    <star-pie :star-pie="starPie"></star-pie>
                 </div>
             </div>
-            <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==2 || tabIndex==4">
-                <kol-title title="关键词分析"></kol-title>
-                <h3 class="item_title">词云图</h3>
-                <comment-charts :id="kolId" @getStatus="setStatus"></comment-charts>
-                <h3 class="item_title">评论列表</h3>
-                <kol-comments :id="kolId"></kol-comments>
-            </div>
-            
-            <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==3 || tabIndex==4" v-if="userFollower">
-                <kol-title title="用户数据"></kol-title>
-                <h3 class="item_title">性别分布</h3>
-                <gender-echarts :boy="boy" :girl="girl"></gender-echarts>
-                <h3 class="item_title">年龄分布</h3>
-                <age-tree :agex="ageTreeX" :agey="ageTreeY"></age-tree>
-                <h3 class="item_title">城市分布</h3>
-                <city :city="city"></city>
-                <h3 class="item_title">星座分布</h3>
-                <star-pie :star-pie="starPie"></star-pie>
-            </div>
-            
             <canvas-bottom v-if="sharing"></canvas-bottom>
         </div>
 
@@ -116,7 +117,8 @@ export default {
             ageTreeX:'',
             ageTreeY:'',
             city:'',
-            starPie:''
+            starPie:'',
+            infoBox:true
         }
     },
     watch:{
@@ -177,19 +179,17 @@ export default {
         },
         //生成图片
         getCanvasShare(){
-            var that=this;
             html2canvas(document.querySelector("#capture"),{
                 async: true,
-                allowTaint: false,
                 taintTest: true,
                 useCORS: true,
-                scale: 2, 
-                logging: false, 
+                scale: 2
             }).then(canvas => {
-                that.shareLoding=false;
+                this.shareLoding=false;
                 canvas.setAttribute('id','thecanvas');
-                var strURI = canvas.toDataURL('image/png');
-                that.dataUrl=strURI;
+                let strURI = canvas.toDataURL('image/png').replace("image/png","image/octet-stream");
+                this.dataUrl=strURI;
+                this.infoBox=false;
             });
         },
     }

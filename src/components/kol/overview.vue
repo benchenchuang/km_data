@@ -14,7 +14,7 @@
             <div class="flex_item">
                 <img class="icon" src="../../assets/images/icon_joy.png"/>
                 <p class="num">{{data.nintyShareAveCnt | getMillion}}</p>
-                <p class="name">集均分享赞</p>
+                <p class="name">集均分享数</p>
             </div>
         </div>
         <div class="over_view">

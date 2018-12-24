@@ -54,10 +54,6 @@ export default {
             Axios.userInfo({token:token}).then(res=>{
                 if(res.errorCode==200){
                     this.info=res.data;
-                }else{
-                    setTimeout(()=>{
-                        this.$router.go(-1)
-                    },100)
                 }
             })
         },

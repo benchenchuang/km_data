@@ -90,6 +90,8 @@ export const controlFocus=(params)=>{return axios.post(api+'/kol/focus',params).
 export const delFocus=(params)=>{return axios.post(api+'/kol/delFocus',params).then(res=>res.data)};
 //推荐关注
 export const myFocusRecommend=(params)=>{return axios.post(api+'/kol/myFocusRecommend',params).then(res=>res.data)};
+//平台标签
+export const getLabel=(params)=>{return axios.post(api+'/kol/getLabel',params).then(res=>res.data)};
 
 //平台列表
 export const platforms=(params)=>{return axios.post(api+'/index/platforms',params).then(res=>res.data)};

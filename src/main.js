@@ -10,6 +10,10 @@ require('./assets/toast/toast.css')
 import Toast from './assets/toast/toast';
 import infiniteScroll from 'vue-infinite-scroll'
 
+import 'babel-polyfill'
+import Es6Promise from 'es6-promise'
+Es6Promise.polyfill()
+
 Vue.config.productionTip = false
 
 FastClick.attach(document.body)

@@ -16,7 +16,7 @@ export default {
         margin:3vw auto;
         width: 38vw;
         height: 7vw;
-        line-height: 5.5vw;
+        line-height: 6vw;
         font-size: 3.5vw;
         color: #fff;
         text-align: center;

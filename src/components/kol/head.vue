@@ -8,7 +8,7 @@
                     <h3 class="name">{{info.nickName}}</h3>
                     <div class="km_about">
                         <p class="index">可梦指数：<span class="num">985</span></p>
-                        <a :href="info.shareUrl?info.shareUrl:'javascript:void(0);'" class="icon_plat">
+                        <a :href="info.shareUrl?'http://'+info.shareUrl:'javascript:void(0);'" class="icon_plat">
                             <img v-if="info.platform=='DOUYIN'" src="../../assets/images/icon_DOUYIN.png"/>
                             <img v-else-if="info.platform=='KUAISHOU'" src="../../assets/images/icon_KUAISHOU.png"/>
                             <img v-else-if="info.platform=='BILIBILI'" src="../../assets/images/icon_BILIBILI.png"/>
@@ -33,15 +33,10 @@
                 </div>
             </div>
             <div class="kol_item kol_other">
-                <div class="item" style="display:none">
+                <div class="item" v-if="labels.length">
                     <label class="name">标签：</label>
                     <div class="flex_item labels">
-                        <span class="label">搞笑</span>
-                        <span class="label">宠物</span>
-                        <span class="label">宠物</span>
-                        <span class="label">宠物</span>
-                        <span class="label">宠物</span>
-                        <span class="label">宠物</span>
+                        <span class="label" v-for="(label,index) in labels" :key="index">{{label}}</span>
                     </div>
                 </div>
                 <div class="item">
@@ -69,7 +64,8 @@ export default {
             isLoding:true,
             kolId:this.id,
             info:'',
-            token:''
+            token:'',
+            labels:[]
         }
     },
     mounted(){
@@ -87,9 +83,6 @@ export default {
                     this.$toast.center(tipMsg);
                 }else{
                     this.$toast.center(res.errorMsg);
-                    // setTimeout(()=>{
-                    //     this.$router.go(0);
-                    // },1000)
                 }
             })
         },
@@ -100,6 +93,9 @@ export default {
             Axios.getKol({kolId:id,token:token}).then(res=>{
                 if(res.errorCode==200){
                     this.info=res.data;
+                    if(res.data.label){
+                        this.labels=res.data.label.split(',');
+                    }
                     this.isLoding=false;
                 }else{
                     this.$toast.center(res.errorMsg);

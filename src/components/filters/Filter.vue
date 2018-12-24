@@ -23,11 +23,17 @@
         </div>
         <div class="filter_box plat_box sort_slide" :class="{'hide':isFilterMore}">
             <swiper :options="swiperOption" ref="mySwiper">
+                <swiper-slide>
+                    <div class="filter_item"  @click="toSlide(0)">
+                        <input id="sort_all" type="radio" name="sort" v-model="filters.labelId" value="">
+                        <label for="sort_all">全部</label>
+                    </div>
+                </swiper-slide>
                 <swiper-slide v-for="(sort, index) in category" :key="index">
                     <div class="filter_item"  @click="toSlide(index)">
-                        <input :id="'sort_'+sort.id" type="radio" name="sort" v-model="filters.category" :value="sort.id">
+                        <input :id="'sort_'+sort.id" type="radio" name="sort" v-model="filters.labelId" :value="sort.id">
                         <label :for="'sort_'+sort.id">
-                            {{sort.name}}
+                            {{sort.title}}
                         </label>
                     </div>
                 </swiper-slide>
@@ -35,19 +41,22 @@
             <a class="sort_more" @click="showSort" href="javascript:void(0);"><img src="../../assets/images/icon_filter_more.png"></a>
         </div>
         <div class="filter_box plat_box sort_show" v-show="isFilterMore">
+            <div class="filter_item" @click="selectCategory('',0)">
+                <label :class="{'on':filters.labelId==''}">
+                    全部
+                </label>
+            </div>
             <div class="filter_item" v-for="(sort,index) in category" :key="index" @click="selectCategory(sort.id,index)">
-                <label :class="{'on':sort.id==filters.category}">
-                    {{sort.name}}
+                <label :class="{'on':sort.id==filters.labelId}">
+                    {{sort.title}}
                 </label>
             </div>
             <a class="sort_more" @click="hideSort" href="javascript:void(0);"><img src="../../assets/images/icon_filter_more.png"></a>
         </div>
         <div class="select_box flex_box">
             更新日期：<div id="trigger" class="kol_date flex_item">{{filters.day}}</div>
-            <span class="kol_num">用户样本数：{{count}}</span>
+            <span class="kol_num">用户样本数：{{count | getMillion}}</span>
         </div>
-        
-
     </div>
 </template>
 <script>
@@ -68,7 +77,7 @@ export default {
             filters:{
                 column:1,
                 platform:'DOUYIN',
-                category:0,
+                labelId:'',
                 day:''
             },
             isFilterMore:false,
@@ -102,38 +111,10 @@ export default {
                     name:"火山小视频"
                 }
             ],
-            category:[
-                {
-                    id:0,
-                    name:"全部"
-                },
-                {
-                    id:1,
-                    name:"小姐姐"
-                },
-                {
-                    id:2,
-                    name:"小哥哥"
-                },{
-                    id:3,
-                    name:"高颜值"
-                },
-                {
-                    id:4,
-                    name:"单身狗"
-                },{
-                    id:5,
-                    name:"高颜值1"
-                },
-                {
-                    id:6,
-                    name:"单身狗2"
-                }
-            ],
+            category:[],
             thisIndex:0,
             swiperOption: {
                 slidesPerView:'auto',
-                spaceBetween: 10,
                 freeMode: true,
             },
         }
@@ -142,6 +123,7 @@ export default {
         filters:{
             handler(curVal){
                 this.updateParams();
+                this.getLabel(curVal)
 　　　　　　 },
 　　　　　　 deep:true
         },
@@ -157,6 +139,11 @@ export default {
                     this.platforms=res.data;
                     this.filters.platform=res.data[0].id;
                 }
+            })
+        },
+        getLabel(params){
+            Axios.getLabel(params).then(res=>{
+                this.category=res.data;
             })
         },
         toSlide(i) {
@@ -353,7 +340,7 @@ export default {
     background: #f8f8f8;
     color:#999;
     .kol_date{
-        margin-right: 10vw;
+        // margin-right: 10vw;
         color: #333;
     }
 }

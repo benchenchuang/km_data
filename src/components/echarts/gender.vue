@@ -2,15 +2,15 @@
     <div>
         <div class="trend_box" v-echarts="ChartOptions"></div>
         <div class="gender_box flex_box" v-if="!noData">
-            <div class="flex_item boy">
-                <img class="icon_gender" src="../../assets/images/icon_boy.png"/>
-                <p class="percent">{{boy/allFans | fansPercent}}</p>
-                <p class="label">男性用户</p>
-            </div>
             <div class="flex_item girl">
                 <img class="icon_gender" src="../../assets/images/icon_girl.png"/>
                 <p class="percent">{{girl/allFans | fansPercent}}</p>
                 <p class="label">女性用户</p>
+            </div>
+            <div class="flex_item boy">
+                <img class="icon_gender" src="../../assets/images/icon_boy.png"/>
+                <p class="percent">{{boy/allFans | fansPercent}}</p>
+                <p class="label">男性用户</p>
             </div>
         </div>
         <no-data class="no_data" v-if="noData"></no-data>

@@ -83,23 +83,23 @@ export default {
             this.shareLoding=true;
             setTimeout(()=>{
                 this.ranks=this.ranks.slice(0,50);
+                this.ranks.map(item=>{
+                    item.show=false;
+                })
                 this.getCanvasShare();
             },2000)
         },
         getCanvasShare(){
-            var that=this;
             html2canvas(document.querySelector("#capture"),{
                 async: true,
-                allowTaint: false,
                 taintTest: true,
                 useCORS: true,
                 scale: 2, 
-                logging: false, 
             }).then(canvas => {
                 this.shareLoding=false;
                 canvas.setAttribute('id','thecanvas');
                 var strURI = canvas.toDataURL('image/png');
-                that.dataUrl=strURI;
+                this.dataUrl=strURI;
                 this.shareList=false;
             });
         },
@@ -125,7 +125,8 @@ export default {
                     this.totalPage=res.data.meta.totalPage;
                     this.maxPage=this.totalPage>2?2:this.totalPage;
                     res.data.kolList.map(item=>{
-                        this.ranks.push(item)
+                        item.show=false;
+                        this.ranks.push(item);
                     });
                     this.rankTops=this.ranks.slice(0,3);
                     if(!res.data.meta.total){
