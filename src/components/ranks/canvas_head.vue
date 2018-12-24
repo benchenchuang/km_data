@@ -1,17 +1,17 @@
 <template>
     <div class="canvas_head">
         <div class="head_tops">
-            <div class="top_item small_top" v-if="rank.sort==2" v-for="(rank,index) in data" :key="index">
+            <div class="top_item small_top" v-if="index+1==2" v-for="(rank,index) in data" :key="index">
                 <img class="top" src="../../assets/images/rank_02.png">
                 <img class="avatar" :src="rank.headImg">
                 <p class="nick_name">{{rank.nickName}}</p>
             </div>
-            <div class="top_item first_top" v-if="rank.sort==1" v-for="(rank,index) in data" :key="index">
+            <div class="top_item first_top" v-if="index+1==1" v-for="(rank,index) in data" :key="index">
                 <img class="top" src="../../assets/images/rank_01.png">
                 <img class="avatar" :src="rank.headImg">
                 <p class="nick_name">{{rank.nickName}}</p>
             </div>
-            <div class="top_item small_top" v-if="rank.sort==3" v-for="(rank,index) in data" :key="index">
+            <div class="top_item small_top" v-if="index+1==3" v-for="(rank,index) in data" :key="index">
                 <img class="top" src="../../assets/images/rank_03.png">
                 <img class="avatar" :src="rank.headImg">
                 <p class="nick_name">{{rank.nickName}}</p>
