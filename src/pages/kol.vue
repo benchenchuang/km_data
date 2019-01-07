@@ -132,7 +132,8 @@ export default {
     created(){
         let token=webStorage.getLocal('token');
         if(token){
-           if(!this.$route.params.id){
+            this.getUserInfo(token)
+            if(!this.$route.params.id){
                 this.$toast.center('红人详情不存在');
                 return setTimeout(()=>{
                     this.$router.go(-1);
@@ -150,6 +151,13 @@ export default {
     methods:{
         setStatus(){
             this.status++;
+        },
+        getUserInfo(token){
+            Axios.userInfo({token:token}).then(res=>{
+                if(res.errorCode!=200){
+                    this.$router.go(-1)
+                }
+            })
         },
         //获取用户画像信息
         getFollower(){

@@ -55,14 +55,6 @@ export default {
         showMore(index){
             this.data[index].show=!this.data[index].show;
         }
-    },
-    filters:{
-        getMillion(num){
-            if(num>=10000){
-                return (num/10000).toFixed(2)+'万'
-            }
-            return num;
-        }
     }
 }
 </script>

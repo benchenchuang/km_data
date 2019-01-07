@@ -6,7 +6,7 @@
                 <p class="item_index">平台</p>
                 <p class="item_index">可梦指数</p>
             </div>
-            <div v-if="focusBox.length">
+            <div>
                 <div class="focus_item">
                     <div class="focus_control" v-if="delCheck">
                         <a class="btn btn_cancel" @click="checkShow" href="javascript:void(0);">取消</a>
@@ -27,16 +27,36 @@
                         <p class="item_index">{{focus.platform | platForm}}</p>
                         <p class="item_index">1856</p>
                     </div>
-                    <router-link :to="{name:'KolDetail',params:{id:focus.id}}" class="flex_box" v-else>
-                        <div class="name">
-                            <label>{{focus.nickName}}</label>
+                    <div v-else>
+                        <div class="flex_box">
+                            <div class="name">
+                                <router-link :to="{name:'KolDetail',params:{id:focus.id}}"><label>{{focus.nickName}}</label></router-link>
+                            </div>
+                            <p class="item_index"><router-link :to="{name:'KolDetail',params:{id:focus.id}}">{{focus.platform | platForm}}</router-link></p>
+                            <p class="item_index">
+                                <router-link :to="{name:'KolDetail',params:{id:focus.id}}">1856</router-link>
+                                <i class="icon_show" @click="showMore(index)"><img src="../assets/images/icon_filter_more.png"/></i>
+                            </p>
                         </div>
-                        <p class="item_index">{{focus.platform | platForm}}</p>
-                        <p class="item_index">1856</p>
-                    </router-link>
+                        <div class="item_more" v-if="focus.show">
+                            <div class="more_item flex_item">
+                                <p class="num">{{focus.ninetyCommentCnt | getMillion}}</p>
+                                <p class="desc">集均评论数</p>
+                            </div>
+                            <div class="more_item flex_item">
+                                <p class="num">{{focus.ninetyPraiseCnt | getMillion}}</p>
+                                <p class="desc">集均点赞数</p>
+                            </div>
+                            <div class="more_item flex_item">
+                                <p class="num">{{focus.ninetyShareCnt | getMillion}}</p>
+                                <p class="desc">集均分享数</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <no-data v-else title="暂无关注数据"></no-data>
+            <kol-rank v-if="isLoding"></kol-rank>
+            <no-data v-if="!focusBox.length && !isLoding" title="暂无关注数据"></no-data>
             
         </div>
         <div class="recommend_box">
@@ -62,6 +82,7 @@
 </template>
 <script>
 import KolTitle from '@/components/kol/title.vue'
+import KolRank from '@/components/skeleton/rank'
 import * as Axios from '../utils/axios.js'
 import {webStorage} from '../utils/webStorage.js'
 import NoData from '@/components/noData';
@@ -69,7 +90,8 @@ export default {
     name:'Focus',
     components:{
         KolTitle,
-        NoData
+        NoData,
+        KolRank
     },
     data(){
         return{
@@ -78,7 +100,8 @@ export default {
             focusBox:[],
             checkedNames:[],
             recommendBox:[],
-            isCheckAll:false
+            isCheckAll:false,
+            isLoding:true
         }
     },
     watch:{
@@ -97,6 +120,9 @@ export default {
         this.myFocusRecommend(token);
     },
     methods:{
+        showMore(index){
+            this.focusBox[index].show=!this.focusBox[index].show;
+        },
         cancelFocus(){
             let kolArray=this.checkedNames.join(',');
             Axios.delFocus({token:this.token,kolId:kolArray}).then(res=>{
@@ -121,7 +147,7 @@ export default {
         },
         checkShow(){
             this.delCheck=!this.delCheck;
-            this.checkedNames=[]
+            this.checkedNames=[];
         },
         toggleFocus(index,kolId){
             Axios.controlFocus({token:this.token,kolId:kolId}).then(res=>{
@@ -133,9 +159,15 @@ export default {
             });
         },
         getFocus(token){
+            this.isLoding=true;
             Axios.myFocus({token:token}).then(res=>{
                 if(res.errorCode==200){
-                    this.focusBox=res.data;
+                    this.focusBox=[];
+                    res.data.map(item=>{
+                        item.show=false;
+                        this.focusBox.push(item);
+                    });
+                    this.isLoding=false;
                 }else{
                     this.$toast.center(res.errorMsg);
                     setTimeout(()=>{
@@ -189,12 +221,12 @@ export default {
     background: #fff;
     .focus_head,
     .focus_item{
-        height: 10vw;
+        .flex_box{
+            padding: 0 4vw;
+        }
         line-height: 10vw;
-        padding: 0 4vw;
         font-size: 3.5vw;
         color: #666;
-        overflow: hidden;
         .name{
             flex:2;
             -webkit-flex:2;
@@ -231,6 +263,9 @@ export default {
                 }
             }
     }
+    .focus_head{
+        padding: 0 4vw;
+    }
     .del_show{
         display: inline-block;
         font-size: 3.5vw;
@@ -242,8 +277,12 @@ export default {
             height: 5vw;
         }
     }
+    .focus_del{
+        margin-left: 4vw;
+    }
     .focus_control{
         float: right;
+        margin-right: 4vw;
         margin-top: 2vw;
         .btn{
             float: left;
@@ -310,6 +349,32 @@ export default {
                     }
                 }
             }
+        }
+    }
+}
+.icon_show img{
+    padding: 1vw 2vw;
+    width: 3.5vw;
+    vertical-align: text-top;
+}
+.item_more{
+    padding: 3vw 4vw 3vw 20%;
+    display: flex;
+    display: -webkit-flex;
+    background: #f8f8f8;
+    box-shadow: inset 0 1px 4px  rgba(0,0,0,0.06);
+    .more_item{
+        flex:1;
+        -webkit-flex:1;
+        text-align: center;
+        font-size: 3.5vw;
+        line-height: 1.5;
+        .num{
+            color: #ff3f13;
+        }
+        .desc{
+            font-size: 12px;
+            color: #888;
         }
     }
 }

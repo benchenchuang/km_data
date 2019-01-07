@@ -13,7 +13,6 @@ Vue.use(Router)
 
 export default new Router({
   // mode:'history',
-  base: __dirname,
   routes: [
     {
       path: '/',
@@ -37,7 +36,8 @@ export default new Router({
       name: 'Search',
       component: Search,
       meta:{
-        title:"搜索"
+        title:"搜索",
+        certify:true
       }
     },
     {
