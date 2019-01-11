@@ -2,7 +2,7 @@
     <div>
         <div class="search_head flex_box">
             <div class="search_item flex_item">
-                <input type="search" v-model="keyword" placeholder="请输入红人名称"/>
+                <input type="search" v-model="keyword" v-focus placeholder="请输入红人名称"/>
             </div>
             <a href="javascript:void(0);" @click="search" class="search_btn">
                 <i class="icon_search"></i>
@@ -52,6 +52,13 @@ export default {
             results:[],
             resultTip:false,
             searchLoding:false,
+        }
+    },
+    directives: {
+        focus: {
+            inserted: function (el) {
+                el.focus()
+            }
         }
     },
     methods:{

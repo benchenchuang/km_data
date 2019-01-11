@@ -34,10 +34,11 @@
                 </div>
                 <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==2 || tabIndex==4">
                     <kol-title title="关键词分析"></kol-title>
-                    <h3 class="item_title">词云图</h3>
-                    <comment-charts :id="kolId" @getStatus="setStatus"></comment-charts>
-                    <h3 class="item_title">评论列表</h3>
-                    <kol-comments :id="kolId"></kol-comments>
+                    <h3 v-show="false" class="item_title">词云图</h3>
+                    <comment-charts v-show="false" :id="kolId" @getStatus="setStatus"></comment-charts>
+                    <h3 v-show="false" class="item_title">评论列表</h3>
+                    <kol-comments v-show="false" :id="kolId"></kol-comments>
+                    <no-data title="暂无评论数据"></no-data>
                 </div>
                 
                 <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==3 || tabIndex==4" v-if="userFollower">
@@ -78,6 +79,7 @@ import GenderEcharts from '@/components/echarts/gender'
 import AgeTree from '@/components/echarts/ageTree'
 import City from '@/components/echarts/city'
 import StarPie from '@/components/echarts/starPie'
+import NoData from '@/components/noData'
 import html2canvas from 'html2canvas';
 import {webStorage} from '../utils/webStorage.js'
 export default {
@@ -98,7 +100,7 @@ export default {
         AgeTree,
         City,
         StarPie,
-        
+        NoData
     },
     data(){
         return{

@@ -105,8 +105,8 @@ export default {
             Axios.getMobileMsg(this.formData).then(res=>{
                 if(res.errorCode==200){
                     //暂时弹出验证码
-                    // this.$toast.center('已发送，请注意查看');
-                    this.$toast.center(res.data.code);
+                    this.$toast.center('已发送，请注意查看');
+                    // this.$toast.center(res.data.code);
                     this.timeCount();
                 }else{
                     this.$toast.center(res.errorMsg);

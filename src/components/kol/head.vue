@@ -24,7 +24,7 @@
                         <span class="gender">性别：<span class="val">{{info.gender | sexFilter}}</span></span>
                     </div>
                     <div class="weibo" v-if="info.weiboName">
-                    微博：<img class="icon" src="../../assets/images/icon_weibo.png"/><span class="val">{{info.weiboName}}</span>
+                    微博：<a :href="info.weiboUrl?info.weiboUrl:'javascript:void(0);'"><img class="icon" src="../../assets/images/icon_weibo.png"/></a><span class="val">{{info.weiboName}}</span>
                     </div>
                 </div>
                 <div class="focus">
@@ -93,8 +93,8 @@ export default {
             Axios.getKol({kolId:id,token:token}).then(res=>{
                 if(res.errorCode==200){
                     this.info=res.data;
-                    if(res.data.label){
-                        this.labels=res.data.label.split(',');
+                    if(res.data.userLabels){
+                        this.labels=res.data.userLabels.split(',');
                     }
                     this.isLoding=false;
                 }else{

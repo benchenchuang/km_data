@@ -58,8 +58,6 @@ export default {
                     this.maxPage=Math.ceil(res.data.length/this.limit);
                     this.allComments=res.data;
                     this.comments=this.allComments.slice(0,this.limit);
-                }else{
-                    this.$toast.center(res.errorMsg);
                 }
             })
         },
