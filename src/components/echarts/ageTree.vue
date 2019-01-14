@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div v-if="!noData">
+        <h3 class="item_title">年龄分布</h3>
         <div class="trend_box" v-echarts="ChartOptions"></div>
-        <no-data class="no_data" v-if="noData"></no-data>
     </div>
 </template>
 <script>
@@ -13,9 +13,6 @@ export default {
     props:['agex','agey'],
     directives: {
         'echarts': V_Echarts
-    },
-    components:{
-        NoData
     },
     data(){
         return{
@@ -35,7 +32,8 @@ export default {
                     return ageTotal+parseFloat(item);
                 },0)
             }else{
-                this.noData=true
+                this.noData=true;
+                this.$emit('onData',2)
             }
             for(let i=ageY.length-1;i>=0;i--){
                 let agePer=(ageY[i]/ageTotal).toFixed(2)*100;
@@ -128,7 +126,6 @@ export default {
                     }
                 ]
             };
-
             this.ChartOptions=option;
         }
     },
@@ -149,6 +146,21 @@ export default {
     }
     .no_data{
         margin-top: -60vw;
+    }
+    .item_title{
+        position:relative;
+        margin:2vw 4vw;
+        font-size:4vw;
+        color:#333;
+    }
+    .item_title:before{
+        content:'';
+        position:absolute;
+        left:0;
+        top:5.5vw;
+        width:6vw;
+        height:2px;
+        background:#ff3f13;
     }
 </style>
 

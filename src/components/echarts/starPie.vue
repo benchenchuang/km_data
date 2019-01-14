@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div v-if="!noData">
+        <h3 class="item_title">星座分布</h3>
         <div class="trend_box" v-echarts="ChartOptions"></div>
     </div>
 </template>
@@ -15,6 +16,7 @@ export default {
     data(){
         return{
             ChartOptions:{},
+            noData:false
         }
     },
     mounted(){
@@ -115,6 +117,9 @@ export default {
                 allStars=data.reduce((allStars,item)=>{
                     return allStars+parseFloat(item);
                 },0)
+            }else{
+                this.noData=true;
+                this.$emit('onData',4)
             }
             for(let i=0;i<data.length;i++){
                 let thisPercent=(data[i]*100/allStars).toFixed(2);
@@ -231,6 +236,21 @@ export default {
     .trend_box{
         margin: 4vw;
         height: 78vw;
+    }
+    .item_title{
+        position:relative;
+        margin:2vw 4vw;
+        font-size:4vw;
+        color:#333;
+    }
+    .item_title:before{
+        content:'';
+        position:absolute;
+        left:0;
+        top:5.5vw;
+        width:6vw;
+        height:2px;
+        background:#ff3f13;
     }
 </style>
 

@@ -43,14 +43,11 @@
                 
                 <div class="tab_content" :class="{'off':status<2}" v-show="tabIndex==3 || tabIndex==4" v-if="userFollower">
                     <kol-title title="用户数据"></kol-title>
-                    <h3 class="item_title">性别分布</h3>
-                    <gender-echarts :boy="boy" :girl="girl"></gender-echarts>
-                    <h3 class="item_title">年龄分布</h3>
-                    <age-tree :agex="ageTreeX" :agey="ageTreeY"></age-tree>
-                    <h3 class="item_title">城市分布</h3>
-                    <city :city="city"></city>
-                    <h3 class="item_title">星座分布</h3>
-                    <star-pie :star-pie="starPie"></star-pie>
+                    <gender-echarts @onData="getNoData" :boy="boy" :girl="girl"></gender-echarts>
+                    <age-tree @onData="getNoData" :agex="ageTreeX" :agey="ageTreeY"></age-tree>
+                    <city @onData="getNoData" :city="city"></city>
+                    <star-pie @onData="getNoData" :star-pie="starPie"></star-pie>
+                    <no-data v-if="portraitIndex>=4" title="暂无用户数据"></no-data>
                 </div>
             </div>
             <canvas-bottom v-if="sharing"></canvas-bottom>
@@ -121,7 +118,8 @@ export default {
             ageTreeY:'',
             city:'',
             starPie:'',
-            infoBox:true
+            infoBox:true,
+            portraitIndex:0
         }
     },
     watch:{
@@ -148,11 +146,17 @@ export default {
                 this.$router.push({name:'Login'});
             },1000)
         }
-        
+    },
+    updated() {
+        window.scroll(0, 0);
     },
     methods:{
         setStatus(){
             this.status++;
+        },
+        getNoData(val){
+            this.portraitIndex++;
+            console.log(this.portraitIndex)
         },
         getUserInfo(token){
             Axios.userInfo({token:token}).then(res=>{

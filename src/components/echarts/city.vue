@@ -1,19 +1,15 @@
 <template>
-    <div>
-        <div class="trend_box" v-show="!noData" v-echarts="ChartOptions"></div>
-        <no-data class="no_data" v-if="noData"></no-data>
+    <div v-if="!noData">
+        <h3 class="item_title">城市分布</h3>
+        <div class="trend_box" v-echarts="ChartOptions"></div>
     </div>
 </template>
 <script>
 import echarts from 'echarts';
 import V_Echarts from 'vue-echarts-directive';
-import NoData from '@/components/noData';
 export default {
     name:"City",
     props:['city'],
-    components:{
-        NoData
-    },
     directives: {
         'echarts': V_Echarts
     },
@@ -38,6 +34,7 @@ export default {
                 })                 
             }else{
                 this.noData=true;
+                this.$emit('onData',3)
             }
             let option = {
                 grid: {
@@ -136,6 +133,21 @@ export default {
         height: 65vw;
         width: 100%;
         box-sizing: border-box;
+    }
+    .item_title{
+        position:relative;
+        margin:2vw 4vw;
+        font-size:4vw;
+        color:#333;
+    }
+    .item_title:before{
+        content:'';
+        position:absolute;
+        left:0;
+        top:5.5vw;
+        width:6vw;
+        height:2px;
+        background:#ff3f13;
     }
 </style>
 

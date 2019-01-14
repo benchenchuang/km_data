@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div v-if="!noData">
+        <h3 class="item_title">性别分布</h3>
         <div class="trend_box" v-echarts="ChartOptions"></div>
-        <div class="gender_box flex_box" v-if="!noData">
+        <div class="gender_box flex_box">
             <div class="flex_item girl">
                 <img class="icon_gender" src="../../assets/images/icon_girl.png"/>
                 <p class="percent">{{girl/allFans | fansPercent}}</p>
@@ -13,21 +14,16 @@
                 <p class="label">男性用户</p>
             </div>
         </div>
-        <no-data class="no_data" v-if="noData"></no-data>
     </div>
 </template>
 <script>
 import echarts from 'echarts';
 import V_Echarts from 'vue-echarts-directive';
-import NoData from '@/components/noData';
 export default {
     name:"GenderEcharts",
     props:['girl','boy'],
     directives: {
         'echarts': V_Echarts
-    },
-    components:{
-        NoData
     },
     data(){
         return{
@@ -190,6 +186,7 @@ export default {
                 this.ChartOptions=genderOption;
             }else{
                 this.noData=true;
+                this.$emit('onData',1)
             }
         }
     },
@@ -200,7 +197,7 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
     .trend_box{
         margin-top:-10vw;
         height: 60vw;
@@ -230,6 +227,21 @@ export default {
     }
     .no_data{
         margin-top: -60vw;
+    }
+    .item_title{
+        position:relative;
+        margin:2vw 4vw;
+        font-size:4vw;
+        color:#333;
+    }
+    .item_title:before{
+        content:'';
+        position:absolute;
+        left:0;
+        top:5.5vw;
+        width:6vw;
+        height:2px;
+        background:#ff3f13;
     }
 </style>
 

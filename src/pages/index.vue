@@ -76,6 +76,9 @@ export default {
     },
     mounted(){
     },
+    updated() {
+        window.scroll(0, 0);
+    },
     methods:{
         shareBtn(){
             this.params.page=1;

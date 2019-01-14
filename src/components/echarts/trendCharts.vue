@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-show="showEchart" class="trend_box" v-echarts="barChartOptions"></div>
-        <no-data v-show="!showEchart"></no-data>
+        <no-data v-show="!showEchart" title="数据错误，请联系客服"></no-data>
     </div>
 </template>
 <script>
@@ -55,7 +55,11 @@ export default {
                         lineStyle: {
                             color: lineColor
                         }
-                    }
+                    },
+                    formatter: function(value){
+                        console.log(value)
+                        return (value[0].data/10000).toFixed(2)+"w";
+                    },
                 },
                 title: {
                     text: '粉 丝 趋 势',
