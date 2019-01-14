@@ -162,6 +162,7 @@ export default {
                             display: inline-block;
                             width: 6vw;
                             height: 6vw;
+                            vertical-align: -1vw;
                         }
                     }
                 }
